@@ -1,37 +1,25 @@
-{% extends "_base.html" %}
+{% extends "base.html" %}
 {% block title %}<title>GapUp — Skills Catalog</title>{% endblock %}
+
 {% block content %}
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-6">
-  <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide text-cyan-300 bg-cyan-500/10 border border-cyan-500/30">Catalog</span>
-  <h1 class="mt-4 text-4xl font-extrabold tracking-tight">Skills Catalog</h1>
-  <p class="mt-2 text-slate-400 max-w-2xl">All 100 hard skills grouped by domain, each with an estimated learning time.</p>
+<section class="mb-6 border-b border-slate-800 pb-4">
+  <h1 class="text-xl font-bold text-white">Skills Catalog</h1>
+  <p class="text-xs text-slate-400 mt-1">Explore required competencies grouped by category.</p>
 </section>
 
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-  <div class="grid lg:grid-cols-2 gap-5">
-    {% set cat_colors = {'Programming': 'blue', 'Web': 'cyan', 'Cloud/DevOps': 'sky', 'Data/AI': 'emerald', 'Networking/Security': 'red', 'Engineering Tools': 'amber'} %}
-    {% for cat, skills in groups.items() %}
-    {% set c = cat_colors.get(cat, 'slate') %}
-    <div class="p-6 rounded-3xl bg-white/[0.03] border border-white/10">
-      <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-bold flex items-center gap-2">
-          <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-{{ c }}-500/15 text-{{ c }}-400">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a8 8 0 000-11.616M7.572 8.572a8 8 0 000 11.616m0-11.616a8 8 0 0111.314 0M16.428 15.428a8 8 0 01-11.314 0" /></svg>
-          </span>
-          {{ cat }}
-        </h2>
-        <span class="px-2.5 py-1 rounded-full text-xs font-mono font-semibold bg-white/5 text-slate-400 border border-white/10">{{ skills|length }}</span>
+<section class="space-y-6">
+  {% for category, skills in groups.items() %}
+  <div class="p-5 rounded-lg bg-slate-900 border border-slate-800">
+    <h2 class="text-sm font-bold text-blue-400 mb-3 border-b border-slate-800 pb-2">{{ category }}</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+      {% for s in skills %}
+      <div class="p-3 rounded bg-slate-950 border border-slate-800 flex justify-between items-center text-xs">
+        <span class="font-medium text-slate-200">{{ s.name }}</span>
+        <span class="font-mono text-slate-400">{{ s.estimated_hours }}h</span>
       </div>
-      <div class="flex flex-wrap gap-2">
-        {% for s in skills %}
-        <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium bg-white/[0.04] border border-white/10 text-slate-200 hover:border-{{ c }}-500/40 hover:bg-{{ c }}-500/8 transition-colors">
-          {{ s.name }}
-          <span class="font-mono text-xs text-slate-400 border-l border-white/10 pl-2 ml-0.5">{{ s.estimated_hours }}h</span>
-        </span>
-        {% endfor %}
-      </div>
+      {% endfor %}
     </div>
-    {% endfor %}
   </div>
+  {% endfor %}
 </section>
 {% endblock %}

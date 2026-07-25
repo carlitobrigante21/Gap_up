@@ -8,7 +8,8 @@ No SPA, no REST API, no JSON endpoints, no client-side fetch()/AJAX.
 """
 
 import math
-from flask import Flask, render_template, request, abort, url_for
+import os
+from flask import Flask, render_template, request, abort
 
 import db
 
@@ -150,7 +151,7 @@ def analyze():
         current_role_id = int(request.form.get("current_role_id", ""))
         target_role_id = int(request.form.get("target_role_id", ""))
     except (TypeError, ValueError):
-        abort(400, "Invalid form submission.")
+        abort(400, "Invalid form submission. Please select valid roles.")
 
     current_role_name = _fetch_role_name(current_role_id)
     target_role_name = _fetch_role_name(target_role_id)
@@ -208,8 +209,8 @@ def analyze():
 
 @app.route("/roles")
 def roles():
-    roles = _fetch_all_roles_with_counts()
-    return render_template("roles.html", roles=roles, active="roles")
+    roles_data = _fetch_all_roles_with_counts()
+    return render_template("roles.html", roles=roles_data, active="roles")
 
 
 @app.route("/skills")
@@ -220,20 +221,25 @@ def skills():
 
 @app.route("/certs")
 def certs():
-    certs = _fetch_all_certs()
-    return render_template("certs.html", certs=certs, active="certs")
+    certs_data = _fetch_all_certs()
+    return render_template("certs.html", certs=certs_data, active="certs")
 
 
+# ---------------------------------------------------------------------------
+# Error Handlers
+# ---------------------------------------------------------------------------
 @app.errorhandler(400)
 def bad_request(e):
-    return render_template(
-        "error.html",
-        message=str(e.description) if hasattr(e, "description") else "Bad request.",
-    ), 400
+    msg = str(e.description) if hasattr(e, "description") else "Bad request."
+    return render_template("error.html", message=msg), 400
+
+
+@app.errorhandler(500)
+def server_error(e):
+    return render_template("error.html", message="An unexpected server error occurred."), 500
 
 
 if __name__ == "__main__":
-    import os
     if not os.path.exists(db.DB_PATH):
         db.build_database()
-    app.run(host="0.0.0.0", port=8000, debug=False)
+    app.run(host="0.0.0.0", port=8000, debug=True)

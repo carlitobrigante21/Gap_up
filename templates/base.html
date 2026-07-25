@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  {% block title %}<title>GapUp — IT Career Path Simulator</title>{% endblock %}
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <style>
+    ::selection { background: #2563eb; color: #ffffff; }
+    @media print {
+      .no-print { display: none !important; }
+      body { background: #ffffff !important; color: #000000 !important; }
+      .print-card { border: 1px solid #cbd5e1 !important; background: #ffffff !important; color: #000000 !important; box-shadow: none !important; }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased bg-slate-950 text-slate-100 flex flex-col min-h-screen">
+
+  <!-- Simple Header -->
+  <header class="no-print border-b border-slate-800 bg-slate-900 sticky top-0 z-40">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5">
+        <span class="w-8 h-8 rounded bg-blue-600 text-white font-bold flex items-center justify-center text-sm">
+          GU
+        </span>
+        <span class="text-lg font-bold tracking-tight text-white">GapUp</span>
+      </a>
+
+      <!-- Desktop Navigation: Removed 'All IT Roles' -->
+      <nav class="hidden md:flex items-center gap-6">
+        {% set nav_items = [('/', 'home', 'Simulator'), ('/skills', 'skills', 'Skills Catalog'), ('/certs', 'certs', 'Certifications')] %}
+        {% for href, key, label in nav_items %}
+        <a href="{{ href }}" class="text-sm font-medium transition-colors {{ 'text-blue-400 font-semibold' if active == key else 'text-slate-400 hover:text-slate-200' }}">
+          {{ label }}
+        </a>
+        {% endfor %}
+      </nav>
+
+      <a href="/#simulator" class="px-3.5 py-1.5 rounded text-sm font-medium bg-blue-600 hover:bg-blue-500 text-white transition-colors">
+        Start Analysis
+      </a>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <nav class="md:hidden flex items-center gap-4 px-4 py-2 border-t border-slate-800 bg-slate-900/90 overflow-x-auto">
+      {% for href, key, label in nav_items %}
+      <a href="{{ href }}" class="text-xs font-medium whitespace-nowrap {{ 'text-blue-400 font-semibold' if active == key else 'text-slate-400 hover:text-slate-200' }}">
+        {{ label }}
+      </a>
+      {% endfor %}
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 py-8">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Minimal Clean Footer -->
+  <footer class="no-print border-t border-slate-800 bg-slate-900 py-6 mt-12">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between text-xs text-slate-500">
+      <div>&copy; GapUp. IT Career Path Simulator.</div>
+    </div>
+  </footer>
+
+</body>
+</html>

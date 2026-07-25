@@ -1,2 +1,13 @@
-node_modules
+# Python artifacts
+__pycache__/
+*.pyc
+
+# Local database (keeps user/test data off GitHub)
+*.db
+
+# Node / Scaffold legacy leftovers
+node_modules/
+.bolt/
+
+# Local environment / Secret variables
 .env
