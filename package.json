@@ -1,7 +1,8 @@
 {
-  "name": "node-starter",
+  "name": "gapup",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "pip3 install --break-system-packages flask && python3 db.py",
+    "start": "python3 main.py"
   }
 }
