@@ -1,0 +1,199 @@
+{% extends "_base.html" %}
+{% block title %}<title>GapUp — Results: {{ current_role_name }} → {{ target_role_name }}</title>{% endblock %}
+
+{% block content %}
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-4">
+  <!-- Path breadcrumb -->
+  <div class="flex items-center gap-3 flex-wrap">
+    <span class="px-4 py-2 rounded-full text-sm font-semibold bg-white/5 border border-white/15 text-slate-300">{{ current_role_name }}</span>
+    <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+    <span class="px-4 py-2 rounded-full text-sm font-semibold bg-blue-500/15 border border-blue-500/40 text-blue-200">{{ target_role_name }}</span>
+  </div>
+
+  {% if same_role %}
+  <div class="mt-5 p-4 rounded-xl bg-amber-500/10 border border-amber-500/40 text-amber-200 text-sm">
+    You selected the same role for current and target. Everything is already covered — here's the full skill &amp; certification profile for <strong>{{ target_role_name }}</strong>.
+  </div>
+  {% endif %}
+</section>
+
+<!-- Transition timeline banner -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+  <div class="print-card p-7 sm:p-9 rounded-3xl bg-gradient-to-b from-white/[0.06] to-white/[0.02] border border-white/10 shadow-2xl shadow-black/40 backdrop-blur-xl">
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+      <div>
+        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Transition Summary</h1>
+        <p class="mt-2 text-slate-400">Estimated study plan across three weekly dedication levels.</p>
+      </div>
+      <div class="text-right">
+        <div class="text-sm text-slate-400 uppercase tracking-wide font-semibold">Total Transition Time</div>
+        <div class="text-5xl font-extrabold font-mono bg-gradient-to-r from-amber-300 to-orange-400 bg-clip-text text-transparent">{{ total_hours }}h</div>
+      </div>
+    </div>
+
+    <!-- Stat row -->
+    <div class="mt-7 grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div class="p-4 rounded-2xl bg-white/[0.04] border border-white/10 text-center">
+        <div class="text-3xl font-bold font-mono text-blue-400">{{ total_target_skills }}</div>
+        <div class="text-xs text-slate-400 mt-1">Target skills required</div>
+      </div>
+      <div class="p-4 rounded-2xl bg-white/[0.04] border border-white/10 text-center">
+        <div class="text-3xl font-bold font-mono text-emerald-400">{{ covered_count }}</div>
+        <div class="text-xs text-slate-400 mt-1">Covered from current role</div>
+      </div>
+      <div class="p-4 rounded-2xl bg-white/[0.04] border border-white/10 text-center">
+        <div class="text-3xl font-bold font-mono text-red-400">{{ missing_count }}</div>
+        <div class="text-xs text-slate-400 mt-1">Missing skills</div>
+      </div>
+      <div class="p-4 rounded-2xl bg-white/[0.04] border border-white/10 text-center">
+        <div class="text-3xl font-bold font-mono text-amber-400">{{ missing_certs_count }}</div>
+        <div class="text-xs text-slate-400 mt-1">Missing certifications</div>
+      </div>
+    </div>
+
+    <!-- Pacing cards -->
+    <div class="mt-5 grid sm:grid-cols-3 gap-3">
+      {% for p in pacing %}
+      <div class="p-5 rounded-2xl border transition-all hover:-translate-y-1 {{ 'bg-amber-500/10 border-amber-500/40' if p.key == 'casual' else ('bg-blue-500/10 border-blue-500/40' if p.key == 'moderate' else 'bg-cyan-500/10 border-cyan-500/40') }}">
+        <div class="flex items-center justify-between">
+          <span class="text-sm font-semibold text-slate-200">{{ p.label }} Pace</span>
+          <span class="text-xs font-mono text-slate-400">{{ p.hours_per_week }}h / week</span>
+        </div>
+        <div class="mt-3 text-3xl font-extrabold font-mono text-white">{{ p.weeks }}<span class="text-lg text-slate-400"> wks</span></div>
+        <div class="text-sm text-slate-400 mt-0.5">≈ {{ p.months }} months</div>
+        <div class="text-xs text-slate-500 mt-2">{{ p.blurb }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- 4-box matrix -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+  <div class="grid md:grid-cols-2 gap-5">
+
+    <!-- Box 1: Covered skills -->
+    <div class="print-card p-6 rounded-3xl bg-white/[0.03] border border-white/10">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-bold flex items-center gap-2">
+          <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-500/15 text-emerald-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+          </span>
+          Skills You Already Possess
+        </h2>
+        <span class="px-2.5 py-1 rounded-full text-xs font-mono font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">{{ covered_skills|length }}</span>
+      </div>
+      {% if covered_skills %}
+      <div class="flex flex-wrap gap-2">
+        {% for s in covered_skills %}
+        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium bg-emerald-500/10 border border-emerald-500/35 text-emerald-200">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+          {{ s.name }}
+        </span>
+        {% endfor %}
+      </div>
+      {% else %}
+      <p class="text-sm text-slate-500 py-3">No overlapping skills with the target role.</p>
+      {% endif %}
+    </div>
+
+    <!-- Box 2: Missing skills -->
+    <div class="print-card p-6 rounded-3xl bg-white/[0.03] border border-white/10">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-bold flex items-center gap-2">
+          <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-red-500/15 text-red-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /></svg>
+          </span>
+          Skills You Need to Acquire
+        </h2>
+        <span class="px-2.5 py-1 rounded-full text-xs font-mono font-semibold bg-red-500/15 text-red-300 border border-red-500/30">{{ missing_skills|length }}</span>
+      </div>
+      {% if missing_skills %}
+      <div class="flex flex-wrap gap-2">
+        {% for s in missing_skills %}
+        <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium bg-red-500/10 border border-red-500/35 text-red-200">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          {{ s.name }}
+          <span class="font-mono text-xs text-red-300/80 border-l border-red-400/30 pl-2 ml-0.5">{{ s.estimated_hours }} hrs</span>
+        </span>
+        {% endfor %}
+      </div>
+      {% else %}
+      <p class="text-sm text-slate-500 py-3">You already have all the skills the target role requires.</p>
+      {% endif %}
+    </div>
+
+    <!-- Box 3: Covered certs -->
+    <div class="print-card p-6 rounded-3xl bg-white/[0.03] border border-white/10">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-bold flex items-center gap-2">
+          <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-500/15 text-emerald-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          </span>
+          Certifications You Already Have
+        </h2>
+        <span class="px-2.5 py-1 rounded-full text-xs font-mono font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">{{ covered_certs|length }}</span>
+      </div>
+      {% if covered_certs %}
+      <ul class="space-y-2.5">
+        {% for c in covered_certs %}
+        <li class="flex items-center gap-3 p-3 rounded-xl bg-emerald-500/8 border border-emerald-500/25">
+          <svg class="w-5 h-5 text-emerald-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+          <div class="min-w-0">
+            <div class="text-sm font-semibold text-emerald-100 truncate">{{ c.name }}</div>
+            <div class="text-xs text-emerald-300/70">{{ c.issuer }}</div>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="text-sm text-slate-500 py-3">No overlapping certifications with the target role.</p>
+      {% endif %}
+    </div>
+
+    <!-- Box 4: Missing certs -->
+    <div class="print-card p-6 rounded-3xl bg-white/[0.03] border border-white/10">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-bold flex items-center gap-2">
+          <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-red-500/15 text-red-400">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" /></svg>
+          </span>
+          Recommended Certifications
+        </h2>
+        <span class="px-2.5 py-1 rounded-full text-xs font-mono font-semibold bg-red-500/15 text-red-300 border border-red-500/30">{{ missing_certs|length }}</span>
+      </div>
+      {% if missing_certs %}
+      <ul class="space-y-2.5">
+        {% for c in missing_certs %}
+        <li class="flex items-center gap-3 p-3 rounded-xl bg-red-500/8 border border-red-500/25">
+          <svg class="w-5 h-5 text-red-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          <div class="min-w-0 flex-1">
+            <div class="text-sm font-semibold text-red-100 truncate">{{ c.name }}</div>
+            <div class="text-xs text-red-300/70">{{ c.issuer }}</div>
+          </div>
+          <span class="font-mono text-xs font-semibold text-red-200 bg-red-500/15 border border-red-500/30 px-2 py-1 rounded-full whitespace-nowrap">{{ c.estimated_hours }} hrs</span>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="text-sm text-slate-500 py-3">You already hold all the recommended certifications.</p>
+      {% endif %}
+    </div>
+
+  </div>
+</section>
+
+<!-- Action buttons -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+  <div class="flex flex-wrap justify-center gap-3 no-print">
+    <a href="/" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-slate-200 bg-white/5 hover:bg-white/10 border border-white/15 transition-all hover:-translate-y-0.5">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 17l-5-5m0 0l5-5m-5 5h12" /></svg>
+      Analyze Another Role
+    </a>
+    <button onclick="window.print()" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-cyan-400 shadow-lg shadow-blue-600/30 transition-all hover:-translate-y-0.5">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
+      Print Summary
+    </button>
+  </div>
+</section>
+{% endblock %}
