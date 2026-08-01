@@ -15,6 +15,17 @@ import db
 
 app = Flask(__name__)
 
+# --- Force DB Initialization on Server Startup ---
+# Ensure database file exists and schema is built.
+try:
+    if not os.path.exists(db.DB_PATH):
+        db.build_database(force=True)
+    else:
+        db.build_database(force=False)
+except Exception as e:
+    print(f"Database setup error: {e}")
+# --------------------------------------------------
+
 # Weekly study paces (hours per week) for the transition timeline.
 PACES = [
     {"key": "casual", "label": "Casual", "hours_per_week": 10, "blurb": "Evenings & weekends"},
