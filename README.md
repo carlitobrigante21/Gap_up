@@ -4,7 +4,7 @@ GapUp is a lightweight, high-performance Server-Side Rendered (SSR) web applicat
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 * **Backend**: Python 3, Flask
 * **Templating**: Jinja2 (SSR)
@@ -13,16 +13,16 @@ GapUp is a lightweight, high-performance Server-Side Rendered (SSR) web applicat
 
 ---
 
-## 🚀 Key Features
+## Key Features
 
-* **Dynamic Gap Analysis**: Performs set-difference comparisons between a user's current skillset and target role requirements.
-* **Effort & Pace Estimation**: Automatically calculates total missing hours and maps them to realistic study schedules (Casual, Moderate, Intensive).
-* **Zero-Config Portability**: Automatically seeds and initializes the relational SQLite database on first launch if not present.
-* **Modular Data Access**: Built with a clean separation of concerns using a dedicated Data Access Layer (`db.py`).
+* **Dynamic Gap Analysis**: Compares a user's current skill set with the requirements of a target role.
+* **Effort and Pace Estimation**: Calculates missing study hours and suggests realistic schedules for Casual, Moderate, and Intensive plans.
+* **Automatic Database Setup**: Seeds and initializes the SQLite database when needed on first launch.
+* **Structured Data Access**: Uses a dedicated database layer to keep role, skill, and certification data organized.
 
 ---
 
-## 🏁 How to Run Locally
+## How to Run Locally
 
 1. **Clone the repository**:
    ```bash
