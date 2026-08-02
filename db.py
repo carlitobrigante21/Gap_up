@@ -75,23 +75,17 @@ CREATE TABLE IF NOT EXISTS prof_certs (
 # Seed data: 30 IT roles
 # ---------------------------------------------------------------------------
 ROLES = [
-    "Frontend Developer",
-    "Backend Developer",
     "Fullstack Developer",
-    "DevOps Engineer",
     "Cloud Architect",
-    "Data Scientist",
     "Data Engineer",
     "Data Analyst",
     "Cybersecurity Analyst",
     "Penetration Tester",
-    "Network Engineer",
     "Systems Administrator",
     "Database Administrator",
     "Site Reliability Engineer (SRE)",
     "AI/ML Engineer",
     "QA Automation Engineer",
-    "Security Engineer",
     "Solutions Architect",
     "Mobile App Developer (iOS)",
     "Mobile App Developer (Android)",
@@ -105,6 +99,36 @@ ROLES = [
     "Big Data Developer",
     "Game Developer",
     "ERP Consultant",
+]
+
+SUPERSEDED_BASE_ROLES = {
+    "Frontend Developer",
+    "Backend Developer",
+    "DevOps Engineer",
+    "Network Engineer",
+    "Data Scientist",
+    "Security Engineer",
+}
+
+TIERED_ROLES = [
+    "Frontend Developer - Junior",
+    "Frontend Developer - Middle",
+    "Frontend Developer - Senior",
+    "Backend Developer - Junior",
+    "Backend Developer - Middle",
+    "Backend Developer - Senior",
+    "DevOps Engineer - Junior",
+    "DevOps Engineer - Middle",
+    "DevOps Engineer - Senior",
+    "Network Engineer - Junior",
+    "Network Engineer - Middle",
+    "Network Engineer - Senior",
+    "Data Scientist - Junior",
+    "Data Scientist - Middle",
+    "Data Scientist - Senior",
+    "Security Engineer - Junior",
+    "Security Engineer - Middle",
+    "Security Engineer - Senior",
 ]
 
 # ---------------------------------------------------------------------------
@@ -152,7 +176,7 @@ SKILLS = [
     ("Web Performance Optimization", "Web", 30),
     ("Figma", "Web", 25),
 
-    # --- Cloud/DevOps (17) ---
+    # --- Cloud/DevOps (21) ---
     ("AWS EC2", "Cloud/DevOps", 30),
     ("AWS S3", "Cloud/DevOps", 20),
     ("AWS RDS", "Cloud/DevOps", 25),
@@ -170,6 +194,9 @@ SKILLS = [
     ("Prometheus", "Cloud/DevOps", 30),
     ("Grafana", "Cloud/DevOps", 25),
     ("Serverless Architecture", "Cloud/DevOps", 35),
+    ("Automation & IaC", "Cloud/DevOps", 35),
+    ("Observability", "Cloud/DevOps", 35),
+    ("Disaster Recovery", "Cloud/DevOps", 40),
 
     # --- Data/AI (17) ---
     ("Pandas", "Data/AI", 25),
@@ -190,7 +217,7 @@ SKILLS = [
     ("Airflow", "Data/AI", 35),
     ("ETL Pipelines", "Data/AI", 35),
 
-    # --- Networking/Security (18) ---
+    # --- Networking/Security (24) ---
     ("TCP/IP", "Networking/Security", 25),
     ("DNS", "Networking/Security", 20),
     ("Firewalls", "Networking/Security", 25),
@@ -209,8 +236,12 @@ SKILLS = [
     ("Identity & Access Management", "Networking/Security", 30),
     ("Zero Trust Architecture", "Networking/Security", 30),
     ("Penetration Testing", "Networking/Security", 40),
+    ("Network Fundamentals", "Networking/Security", 20),
+    ("Routing & Switching", "Networking/Security", 25),
+    ("Network Monitoring", "Networking/Security", 30),
+    ("Security Hardening", "Networking/Security", 35),
 
-    # --- Engineering Tools (15) ---
+    # --- Engineering Tools (19) ---
     ("Git", "Engineering Tools", 20),
     ("Jira", "Engineering Tools", 15),
     ("Confluence", "Engineering Tools", 10),
@@ -226,6 +257,9 @@ SKILLS = [
     ("Microservices", "Engineering Tools", 35),
     ("API Design", "Engineering Tools", 25),
     ("CI/CD", "Engineering Tools", 30),
+    ("Performance Tuning", "Engineering Tools", 35),
+    ("Capacity Planning", "Engineering Tools", 30),
+    ("Architecture Review", "Engineering Tools", 40),
 ]
 
 # ---------------------------------------------------------------------------
@@ -264,10 +298,34 @@ ROLE_SKILL_MAP = {
         "Web Accessibility (a11y)", "Web Performance Optimization", "Git",
         "REST APIs", "Figma", "Unit Testing",
     ],
+    "Frontend Developer - Junior": [
+        "HTML5", "CSS3", "JavaScript", "Git", "REST APIs", "Unit Testing",
+    ],
+    "Frontend Developer - Middle": [
+        "HTML5", "CSS3", "JavaScript", "TypeScript", "React", "Tailwind CSS",
+        "REST APIs", "Web Accessibility (a11y)", "Git", "Unit Testing",
+    ],
+    "Frontend Developer - Senior": [
+        "HTML5", "CSS3", "JavaScript", "TypeScript", "React", "Tailwind CSS",
+        "Web Accessibility (a11y)", "Web Performance Optimization", "REST APIs",
+        "Figma", "Git", "Unit Testing", "Architecture Review", "Performance Tuning",
+    ],
     "Backend Developer": [
         "Python", "Java", "SQL", "REST APIs", "GraphQL", "Node.js",
         "Express.js", "Django", "Spring Boot", "Postman", "API Design",
         "Microservices", "Git", "Unit Testing",
+    ],
+    "Backend Developer - Junior": [
+        "Python", "SQL", "REST APIs", "Git", "Postman", "Unit Testing",
+    ],
+    "Backend Developer - Middle": [
+        "Python", "Java", "SQL", "REST APIs", "GraphQL", "Node.js",
+        "Express.js", "Django", "Spring Boot", "API Design", "Git", "Unit Testing",
+    ],
+    "Backend Developer - Senior": [
+        "Python", "Java", "SQL", "REST APIs", "GraphQL", "Node.js",
+        "Express.js", "Django", "Spring Boot", "Postman", "API Design",
+        "Microservices", "Git", "Unit Testing", "Architecture Review", "Performance Tuning",
     ],
     "Fullstack Developer": [
         "HTML5", "CSS3", "JavaScript", "TypeScript", "React", "Node.js",
@@ -280,6 +338,19 @@ ROLE_SKILL_MAP = {
         "AWS S3", "Prometheus", "Grafana", "Shell Scripting (Bash)", "Git",
         "CI/CD",
     ],
+    "DevOps Engineer - Junior": [
+        "Linux Administration", "Docker", "Git", "Shell Scripting (Bash)", "CI/CD",
+    ],
+    "DevOps Engineer - Middle": [
+        "Linux Administration", "Docker", "Kubernetes", "Terraform",
+        "Ansible", "Jenkins", "GitHub Actions", "AWS EC2", "Prometheus", "Grafana", "Git", "CI/CD",
+    ],
+    "DevOps Engineer - Senior": [
+        "Linux Administration", "Docker", "Kubernetes", "Terraform",
+        "Ansible", "Jenkins", "GitLab CI/CD", "GitHub Actions", "AWS EC2",
+        "AWS S3", "Prometheus", "Grafana", "Shell Scripting (Bash)", "Git",
+        "CI/CD", "Automation & IaC", "Observability", "Disaster Recovery", "Architecture Review",
+    ],
     "Cloud Architect": [
         "AWS EC2", "AWS S3", "AWS RDS", "AWS IAM", "AWS Lambda",
         "Azure Virtual Machines", "Google Compute Engine", "Terraform",
@@ -290,6 +361,18 @@ ROLE_SKILL_MAP = {
         "Python", "Pandas", "NumPy", "Scikit-learn", "Machine Learning",
         "Statistical Analysis", "Data Visualization", "SQL", "Deep Learning",
         "Git",
+    ],
+    "Data Scientist - Junior": [
+        "Python", "SQL", "Pandas", "NumPy", "Scikit-learn", "Git",
+    ],
+    "Data Scientist - Middle": [
+        "Python", "Pandas", "NumPy", "Scikit-learn", "Machine Learning",
+        "Statistical Analysis", "Data Visualization", "SQL", "Deep Learning", "Git",
+    ],
+    "Data Scientist - Senior": [
+        "Python", "Pandas", "NumPy", "Scikit-learn", "Machine Learning",
+        "Statistical Analysis", "Data Visualization", "SQL", "Deep Learning",
+        "Apache Spark", "Airflow", "CI/CD", "Git", "Architecture Review",
     ],
     "Data Engineer": [
         "Python", "SQL", "Apache Spark", "Apache Kafka", "Airflow",
@@ -313,6 +396,18 @@ ROLE_SKILL_MAP = {
     "Network Engineer": [
         "TCP/IP", "DNS", "Firewalls", "Load Balancing", "Wireshark",
         "Network Security",
+    ],
+    "Network Engineer - Junior": [
+        "TCP/IP", "DNS", "Network Fundamentals", "Routing & Switching", "Wireshark",
+    ],
+    "Network Engineer - Middle": [
+        "TCP/IP", "DNS", "Firewalls", "Load Balancing", "Wireshark",
+        "Network Security", "Network Monitoring", "Linux Administration",
+    ],
+    "Network Engineer - Senior": [
+        "TCP/IP", "DNS", "Firewalls", "Load Balancing", "Wireshark",
+        "Network Security", "Network Monitoring", "Cloud Security",
+        "Security Hardening", "Automation & IaC", "Capacity Planning", "Architecture Review",
     ],
     "Systems Administrator": [
         "Linux Administration", "Windows Server Administration",
@@ -341,6 +436,20 @@ ROLE_SKILL_MAP = {
         "Cryptography", "Identity & Access Management",
         "Zero Trust Architecture", "Cloud Security", "OWASP Top 10",
         "Threat Modeling", "Python", "Linux Administration", "Firewalls",
+    ],
+    "Security Engineer - Junior": [
+        "Cryptography", "OWASP Top 10", "Network Security", "Linux Administration", "Git",
+    ],
+    "Security Engineer - Middle": [
+        "Cryptography", "Identity & Access Management",
+        "Zero Trust Architecture", "Cloud Security", "OWASP Top 10",
+        "Threat Modeling", "Python", "Linux Administration", "Firewalls",
+    ],
+    "Security Engineer - Senior": [
+        "Cryptography", "Identity & Access Management",
+        "Zero Trust Architecture", "Cloud Security", "OWASP Top 10",
+        "Threat Modeling", "Python", "Linux Administration", "Firewalls",
+        "Security Hardening", "Network Monitoring", "Automation & IaC", "Architecture Review",
     ],
     "Solutions Architect": [
         "System Design", "Microservices", "AWS EC2", "AWS S3", "AWS Lambda",
@@ -519,55 +628,80 @@ PROFS = [
 
 
 def build_database(force: bool = False) -> str:
-    """Create and seed the SQLite database. Returns the DB path."""
-    if force and os.path.exists(DB_PATH):
-        os.remove(DB_PATH)
-
+    """Create or refresh the SQLite database without deleting existing records."""
     conn = sqlite3.connect(DB_PATH)
     conn.execute("PRAGMA foreign_keys = ON")
     cur = conn.cursor()
 
     cur.executescript(SCHEMA)
 
-    # Wipe (idempotent re-runs)
-    for t in [
-        "prof_certs", "prof_skills", "role_certs", "role_skills",
-        "prof", "cert", "skills", "roles",
-    ]:
-        cur.execute(f"DELETE FROM {t};")
+    # Roles (additive for custom roles, but remove superseded base roles)
+    for name in sorted(SUPERSEDED_BASE_ROLES):
+        cur.execute("SELECT id FROM roles WHERE name = ?;", (name,))
+        row = cur.fetchone()
+        if row is not None:
+            rid = row[0]
+            cur.execute("DELETE FROM role_skills WHERE role_id = ?;", (rid,))
+            cur.execute("DELETE FROM role_certs WHERE role_id = ?;", (rid,))
+            cur.execute("DELETE FROM roles WHERE id = ?;", (rid,))
 
-    # Roles
-    for name in ROLES:
-        cur.execute("INSERT INTO roles (name) VALUES (?);", (name,))
+    role_names_to_insert = ROLES + TIERED_ROLES
+    role_id_by_name: dict[str, int] = {}
+    for name in role_names_to_insert:
+        cur.execute("SELECT id FROM roles WHERE name = ?;", (name,))
+        row = cur.fetchone()
+        if row is None:
+            cur.execute("INSERT INTO roles (name) VALUES (?);", (name,))
+        cur.execute("SELECT id FROM roles WHERE name = ?;", (name,))
+        role_row = cur.fetchone()
+        if role_row is not None:
+            role_id_by_name[name] = role_row[0]
 
     # Skills (parents first, then children)
     skill_id_by_name: dict[str, int] = {}
     for name, parent, hours in SKILLS:
-        if parent is None:
-            cur.execute(
-                "INSERT INTO skills (name, parent_skill_id, estimated_hours) VALUES (?, NULL, ?);",
-                (name, hours),
-            )
-            skill_id_by_name[name] = cur.lastrowid
-    for name, parent, hours in SKILLS:
-        if parent is not None:
-            pid = skill_id_by_name.get(parent)
-            cur.execute(
-                "INSERT INTO skills (name, parent_skill_id, estimated_hours) VALUES (?, ?, ?);",
-                (name, pid, hours),
-            )
-            skill_id_by_name[name] = cur.lastrowid
+        cur.execute("SELECT id FROM skills WHERE name = ?;", (name,))
+        existing = cur.fetchone()
+        if existing is None:
+            if parent is None:
+                cur.execute(
+                    "INSERT INTO skills (name, parent_skill_id, estimated_hours) VALUES (?, NULL, ?);",
+                    (name, hours),
+                )
+            else:
+                pid = skill_id_by_name.get(parent)
+                if pid is None:
+                    cur.execute("SELECT id FROM skills WHERE name = ?;", (parent,))
+                    parent_row = cur.fetchone()
+                    if parent_row is None:
+                        raise ValueError(f"Parent skill '{parent}' is not defined before '{name}'.")
+                    pid = parent_row[0]
+                cur.execute(
+                    "INSERT INTO skills (name, parent_skill_id, estimated_hours) VALUES (?, ?, ?);",
+                    (name, pid, hours),
+                )
+        cur.execute("SELECT id FROM skills WHERE name = ?;", (name,))
+        row = cur.fetchone()
+        if row is not None:
+            skill_id_by_name[name] = row[0]
 
     # Certs
     cert_id_by_name: dict[str, int] = {}
     for name, issuer, hours in CERTS:
-        cur.execute("INSERT INTO cert (name, issuer, estimated_hours) VALUES (?, ?, ?);", (name, issuer, hours))
-        cert_id_by_name[name] = cur.lastrowid
+        cur.execute("SELECT id FROM cert WHERE name = ?;", (name,))
+        existing = cur.fetchone()
+        if existing is None:
+            cur.execute("INSERT INTO cert (name, issuer, estimated_hours) VALUES (?, ?, ?);", (name, issuer, hours))
+        cur.execute("SELECT id FROM cert WHERE name = ?;", (name,))
+        cert_row = cur.fetchone()
+        if cert_row is not None:
+            cert_id_by_name[name] = cert_row[0]
 
     # role_skills
-    role_id_by_name = {n: i for i, n in enumerate(ROLES, start=1)}
     for role_name, skill_names in ROLE_SKILL_MAP.items():
-        rid = role_id_by_name[role_name]
+        rid = role_id_by_name.get(role_name)
+        if rid is None:
+            continue
         for sn in skill_names:
             sid = skill_id_by_name.get(sn)
             if sid is None:
@@ -579,7 +713,9 @@ def build_database(force: bool = False) -> str:
 
     # role_certs
     for role_name, cert_names in ROLE_CERT_MAP.items():
-        rid = role_id_by_name[role_name]
+        rid = role_id_by_name.get(role_name)
+        if rid is None:
+            continue
         for cn in cert_names:
             cid = cert_id_by_name.get(cn)
             if cid is None:
@@ -591,8 +727,13 @@ def build_database(force: bool = False) -> str:
 
     # prof + prof_skills + prof_certs (sample data)
     for pname, pemail in PROFS:
-        cur.execute("INSERT INTO prof (name, email) VALUES (?, ?);", (pname, pemail))
-        pid = cur.lastrowid
+        cur.execute("SELECT id FROM prof WHERE email = ?;", (pemail,))
+        row = cur.fetchone()
+        if row is None:
+            cur.execute("INSERT INTO prof (name, email) VALUES (?, ?);", (pname, pemail))
+            pid = cur.lastrowid
+        else:
+            pid = row[0]
         if pname == "Alex Morgan":
             for sn in ["JavaScript", "React", "HTML5", "CSS3", "Node.js"]:
                 cur.execute(

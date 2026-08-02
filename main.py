@@ -1,11 +1,4 @@
-"""
-GapUp — IT Career Path & Skill Gap Simulator
-A traditional server-side rendered (SSR) monolith built with Flask + Jinja2.
 
-The server runs SQL queries directly against the SQLite database and passes
-query results straight into Jinja2 templates to render static HTML pages.
-No SPA, no REST API, no JSON endpoints, no client-side fetch()/AJAX.
-"""
 
 import math
 import os
