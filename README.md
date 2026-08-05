@@ -22,9 +22,15 @@ GapUp is a lightweight, high-performance Server-Side Rendered (SSR) web applicat
 
 ---
 
-## How to Run Locally
+##  Quickstart Guide
 
-1. **Clone the repository**:
-   ```bash
-   git clone <repository-url>
-   cd Gap_up
+### 1. Local Setup
+1. Define dependencies in `requirements.txt` (`Flask`, `gunicorn`).
+2. Run `main.py` — it automatically initializes the SQLite database (`gap_up.db`) and creates required tables.
+3. Commit and push your changes to the GitHub `main` branch.
+
+### 2. Deployment (Render.com)
+1. Connect your GitHub repository as a new **Web Service** on Render.com.
+2. Set **Build Command**: `pip install -r requirements.txt`
+3. Set **Start Command**: `gunicorn main:app`
+4. Deploy the application and access it via the public URL.
